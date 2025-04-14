@@ -18,12 +18,9 @@ On an x86 CPU (“llvm” target) With `M = 4096, N = 128`. Key versions:
 | **v2** (+Vectorize)     | ~16.04        | 1.52×                 |
 | **v3** (+Unroll)        | ~14.60        | 1.67×                 |
 | **v4** (Refactor)       | ~0.57         | 43.03×                |
+| **v5** (Combined)       | ~0.41         | 59.39×                |
 | **AutoTVM** (50 trials) | ~0.70         | 34.79×                |
 | **NumPy**               | ~0.21         | ~116× (vs. Naive)     |
-
-1. **Naive vs. v4:** We see a dramatic drop from ~24.35 ms to ~0.57 ms by progressively removing overhead and leveraging parallelism and SIMD.
-2. **AutoTVM:** Automatic tuning converges to ~0.70 ms—slightly slower than our best manual schedule in this configuration, but still vastly better than naive.
-3. **NumPy Reference:** NumPy is ~0.21 ms, indicating that heavily optimized libraries (e.g., MKL) can still be faster.
 
 ## Conv 1d GPU
 
@@ -43,10 +40,6 @@ On a Tesla T4 GPU with `M = 16384` and `N = 32`. Key versions:
 | **NumPy** (CPU)       | 0.2369        | 77.2×                  | -                        |
 | **PyTorch** (GPU)     | 0.1491        | 122.6×                 | -                        |
 
-The final optimized implementation is nearly **1,475× faster** than the naive baseline, showing the enormous performance potential of GPU optimization.
-
-The progression from naive to optimized shows how a combination of algorithmic improvements, thread organization, memory hierarchy exploitation, and low-level optimizations can transform performance on GPU architectures.
-
 ## Conv 2d GPU
 
 [conv2d_dw_gpu.ipynb](conv2d_dw_gpu.ipynb)
@@ -62,12 +55,6 @@ For a 2D depthwise convolution with parameters `B=3, C=4, H=16, W=32, K=7` on a 
 | **v4** (Outer Fusion)    | 0.0080        | 411.3×                 | 1.26×                    |
 | **AutoTVM**              | 0.0035        | 940.1×                 | 2.29×                    |
 | **PyTorch**         | 0.0696        | 47.3×                  | -                        |
-
-The manual optimization v4 achieves a **411.3× speedup** over the naive baseline.
-
-The AutoTVM-optimized version achieves an even more impressive **940.1× speedup** over the naive baseline, demonstrating the power of automated tuning for finding optimal configurations.
-
-Notably, both the manually optimized v3 and v4 implementations, as well as the AutoTVM version, outperform the PyTorch CUDA implementation (which runs at 0.0696 ms).
 
 ## GEMM GPU
 
@@ -85,13 +72,3 @@ For a matrix multiplication with `M=1024`, `K=2048`, `N=512` on a GPU:
 | **NumPy** (CPU)          | 74.95         | 1.1×                   | -                        |
 | **PyTorch CPU**          | 18.74         | 4.5×                   | -                        |
 | **PyTorch CUDA**         | 0.70          | 120.7×                 | -                        |
-
-The manual optimization v3 achieves a **10.4× speedup** over the naive baseline by utilizing GPU-specific optimizations like shared memory, tiling, and cooperative thread loading.
-
-The progression from naive to optimized shows the importance of:
-
-- Effective thread organization
-- Proper memory hierarchy utilization
-- Cooperative data loading
-
-These principles are fundamental to achieving high performance in GPU matrix multiplication implementations.
