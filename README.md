@@ -68,6 +68,7 @@ For a matrix multiplication with `M=1024`, `K=2048`, `N=512` on a GPU:
 | **v1** (1D Threads)      | 36.98         | 2.3×                   | 2.3×                     |
 | **v2** (2D Threads)      | 35.50         | 2.4×                   | 1.04×                    |
 | **v3** (Shared Memory)   | 8.11          | 10.4×                  | 4.4×                     |
+| **v4** (Combined)   | 4.56          | 18.5×                  | 1.8×                     |
 | **AutoTVM**              | 42.56         | 2.0×                   | -                        |
 | **NumPy** (CPU)          | 74.95         | 1.1×                   | -                        |
 | **PyTorch CPU**          | 18.74         | 4.5×                   | -                        |
