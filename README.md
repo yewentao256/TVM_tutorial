@@ -58,7 +58,7 @@ For a 2D depthwise convolution with parameters `B=3, C=4, H=16, W=32, K=7` on a 
 
 ## GEMM GPU
 
-[gemm.ipynb](gemm.ipynb)
+[gemm_gpu.ipynb](gemm_gpu.ipynb)
 
 For a matrix multiplication with `M=1024`, `K=2048`, `N=512` on a GPU:
 
